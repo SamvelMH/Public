@@ -1,9 +1,8 @@
 // external libraries
 import { Map, Record } from 'immutable'
-import { call, put, takeLatest } from 'redux-saga/effects'
+import { call, delay, put, takeLatest } from 'redux-saga/effects'
 // local services & data store
 import { fetchHotels } from '../../services/api.services'
-import { delay } from '../../services/utilities.service'
 // local containers & components
 // local constants & styles
 
@@ -67,7 +66,7 @@ export const hotelsReducer = (state = new InitialStateRecord(), action) => {
 export function* getHotelsSaga(action) {
   try {
     const { id, length, firstLoad } = action
-    if (!firstLoad) yield call(delay, 2500)
+    if (!firstLoad) yield delay(2500)
     const { data, nextIndex } = yield call(fetchHotels, { id, length })
     if (!data?.length) yield put({ type: HOTELS_REQUEST_EMPTY })
     yield put({
